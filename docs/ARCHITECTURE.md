@@ -53,10 +53,14 @@ graph TD
 - **Unified User Experience**: For the user, it feels like a single application under one domain.
 - **Shared Resources**: Logic, styling, and authentication are shared across zones using internal packages.
 - **Performance**: Improved initial load times as only the code for the active zone is loaded.
-- **SEO Friendly**: Server-side rendering is maintained across all zones, ensuring excellent search engine visibility.
 
-### Disadvantages
+### Disadvantages & Solutions
+
 - **Increased Complexity**: Managing multiple applications and their routing logic (rewrites/asset prefixes) is more complex than a monolith.
+    - **Solution**: Use centralized configuration management for `basePath` and `assetPrefix` across all MFEs to ensure consistency and reduce manual errors.
 - **Operational Overhead**: Requires running and monitoring multiple services simultaneously.
+    - **Solution**: Implement unified CI/CD pipelines and centralized observability tools (e.g., Sentry, Datadog) to monitor health and performance across all zones from a single dashboard.
 - **Potential Resource Duplication**: Common dependencies might be loaded multiple times if not carefully optimized.
+    - **Solution**: Use shared libraries for core logic and consider shared vendor bundles or Module Federation if bundle size becomes a concern.
 - **Local Dev Resource Intensity**: Running multiple dev servers can be demanding on local development machines.
+    - **Solution**: Leverage Turborepo's filtering to only run the apps you are currently working on (`pnpm dev --filter=host...`).
